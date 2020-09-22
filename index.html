@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <svg width="960" height="500" class="svgs"></svg>
+  <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/d3/6.1.1/d3.min.js"></script>
+  <script>
+    const data = [
+      {name: 'shao-kui', value: 6},
+      {name: 'wen-yang', value: 6},
+      {name: 'cai-yun', value: 16},
+      {name: 'liang-yuan', value: 12},
+      {name: 'shao-kui', value: 6},
+      {name: 'wei-yun', value: 8},
+      {name: 'ai-dou', value: 10},
+      {name: 'xu-kun', value: 20},
+      {name: 'wang-rui', value: 15},
+      {name: 'wu-wei', value: 14},
+      {name: 'qi-tao', value: 15},
+      {name: 'hai-gang', value: 18},
+      {name: 'wei-xiang', value: 12},
+      {name: 'yong-jun', value: 14},
+    ]
+    const mainsvg = d3.select('.svgs')
+
+    const width = +(mainsvg.attr('width'))
+    const height = +(mainsvg.attr('height'))
+    const margin = { top: 60, right: 30, bottom: 60, left: 150}
+    const innerWidth = width - margin.left - margin.right
+    const innerHeight = height - margin.top - margin.bottom
+
+    const xScale = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.value)])
+    .range([0, innerWidth])
+
+    const yScale = d3.scaleBand()
+    .domain(data.map(d => d.name))
+    .range([0, innerHeight])
+    .padding(0.2)
+
+    const g = mainsvg
+    .append('g')
+    .attr('id', 'maingroup')
+    .attr('transform', `translate(${margin.left}, ${margin.top})`)
+
+    const yAxis = d3.axisLeft(yScale)
+    g.append('g').call(yAxis)
+
+    const xAxis = d3.axisBottom(xScale)
+    g.append('g').call(xAxis).attr('transform', `translate(0, ${innerHeight})`)
+
+    data.forEach(d => {
+      g.append('rect')
+      .attr('width', xScale(d.value))
+      .attr('height', yScale.bandwidth())
+      .attr('fill', 'green')
+      .attr('y', yScale(d.name))
+    })
+
+    d3.selectAll('.tick text').attr('font-size', '2em')
+
+    g.append('text')
+    .text('wo jiu shi zhe me shuai')
+    .attr('font-size', '2em')
+    .attr('transform', `translate(${innerWidth / 2}, -10)`)
+    .attr('text-anchor', 'middle')
+
+  </script>
+</body>
+
+</html>
