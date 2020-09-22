@@ -52,6 +52,8 @@
     .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
     const yAxis = d3.axisLeft(yScale)
+    // .tickSize(-innerWidth)
+    // .tickSize(0)
     g.append('g').call(yAxis)
 
     const xAxis = d3.axisBottom(xScale)
